@@ -1,16 +1,28 @@
-name: Lint
-on: [push]
+name: Test
+
+on: push
 
 jobs:
-  build:
-    name: Lint
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: CheckIn
-      - uses: lots0logs/gh-action-get-changed-files@2.1.4
+      - uses: actions/checkout@v2.1.0
+      - uses: jitterbit/get-changed-files@v1
+        id: abc
         with:
+          format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Echo file changes
-      - uses: lots0logs/gh-action-get-changed-files@2.1.4
-      - run: |
-          echo Changed files: ${{ steps.gh-action-get-changed-files.all }}
+      - name: Printing
+        run: |
+          echo "All:"
+          echo "${{ steps.abc.outputs.all }}"
+          echo "Added:"
+          echo "${{ steps.abc.outputs.added }}"
+          echo "Removed:"
+          echo "${{ steps.abc.outputs.removed }}"
+          echo "Renamed:"
+          echo "${{ steps.abc.outputs.renamed }}"
+          echo "Modified:"
+          echo "${{ steps.abc.outputs.modified }}"
+          echo "Added+Modified:"
+          echo "${{ steps.abc.outputs.added_modified }}"
