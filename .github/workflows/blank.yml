@@ -11,5 +11,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Echo file changes
+      - uses: lots0logs/gh-action-get-changed-files@2.1.4
       - run: |
           echo Changed files: ${{ steps.gh-action-get-changed-files.all }}
