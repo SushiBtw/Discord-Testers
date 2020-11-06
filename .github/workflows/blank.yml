@@ -30,17 +30,18 @@ jobs:
 
     - name: Get file changes
       id: get_file_changes
-      uses: dorner/file-changes-action@v1.2.0
+      uses: trilom/file-changes-action@v1.2.3
       with:
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
-        plaintext: true
+        output: ' '
     - name: Echo file changes
       run: |
         echo Changed files: ${{ steps.get_file_changes.outputs.files }}
+
     - name: Run lint
-      uses: dorner/lint-action@v1.3.3
+      uses: samuelmeuli/lint-action@v1.4.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        rubocop_bundler: true
+        rubocop: true
         auto_fix: true
-        rubocop_bundler_args: -R --fail-level C ${{ steps.get_file_changes.outputs.files}}
+        rubocop_args: -R --fail-level C --display-only-fail-level-offenses ${{ steps.get_file_changes.outputs.files}}
+        rubocop_command_prefix: bundle exec
